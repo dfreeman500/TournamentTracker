@@ -12,7 +12,7 @@ namespace TrackerLibrary
     public static class GlobalConfig
     {
         //List<IDataConnection> allows to save to both text file and dB
-        public static List<IDataConnection> Connections  { get; private set; } //anyone can read but not everyone can set
+        public static List<IDataConnection> Connections  { get; private set; } = new List<IDataConnection> //anyone can read but not everyone can set
         
         public static void InitializeConnections(bool database, bool textFiles)
         {
