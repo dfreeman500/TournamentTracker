@@ -116,8 +116,11 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\TrackerLibrary\TrackerLibrary.csproj">
-      <Project>{f61b09ad-8ecd-4a67-86ff-47ea0892f45f}</Project>
+      <Project>{587959bc-4b78-4b28-94bb-a1bc96f47e8a}</Project>
       <Name>TrackerLibrary</Name>
     </ProjectReference>
   </ItemGroup>
