@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrackerLibrary.DataAccess;
 
 namespace TrackerLibrary
 {
@@ -12,31 +14,29 @@ namespace TrackerLibrary
     public static class GlobalConfig
     {
         //List<IDataConnection> allows to save to both text file and dB
-        public static List<IDataConnection> Connections { get; private set; } = new List<IDataConnection>(); //anyone can read but not everyone can set
+        public static IDataConnection Connection { get; private set; }  //anyone can read but not everyone can set
         
-        public static void InitializeConnections(bool database, bool textFiles)
+        public static void InitializeConnections(DatabaseType db)
         {
-            if (database)
+            if (db == DatabaseType.Sql)
             {
                 SqlConnector sql = new SqlConnector();
-                Connections.Add(sql);
+                Connection = sql;
                 
-                //TODO - create SQL connection
             }
 
-            if (textFiles)
+            else if (db == DatabaseType.TextFile)
             {
-                TextConnection text = new TextConnection();
-                Connections.Add(text);
+                TextConnector text = new TextConnector();
+                Connection = text;
                 
                 
-                //TODO Create the text connection
             }
 
-
-            //TODO - 4:37:43, 5:14:32
-            //TODO currently at 3:43:37
-
+        }
+        public static string CnnString (string name)
+        {
+            return ConfigurationManager.ConnectionStrings[name].ConnectionString;
         }
     
     }
