@@ -15,6 +15,8 @@ namespace TrackerLibrary
     {
         //List<IDataConnection> allows to save to both text file and dB
         public static IDataConnection Connection { get; private set; }  //anyone can read but not everyone can set
+
+
         
         public static void InitializeConnections(DatabaseType db)
         {

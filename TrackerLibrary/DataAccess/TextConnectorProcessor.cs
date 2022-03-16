@@ -14,11 +14,14 @@ namespace TrackerLibrary.DataAccess.TextHelpers
         public static string FullFilePath(this string fileName) //PrizeModel.csv  //becomes an extension method
         {
             //C:\data\TournamentTracker\PrizeModels.csv
-            return $"{ConfigurationManager.AppSettings["filePath"]}\\{fileName}";
+            var p = $"{ConfigurationManager.AppSettings["filePath"] }\\{ fileName }";
+            return p;
+                
         }
         public static List<string> LoadFile(this string file) // Takes in full file path, and reads all of the lines in the file
         {
-            if (!File.Exists(file)) //if file doesn't exist...
+            bool doesFileExist = File.Exists(file);
+            if (File.Exists(file) == false) //if file doesn't exist...
             {
                 return new List<string>();
             }
@@ -51,7 +54,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                 lines.Add($"{p.Id}, {p.PlaceNumber}, {p.PlaceName}, {p.PrizeAmount}, {p.PrizePercentage}");
 
             }
-            File.WriteAllLines(fileName.FullFilePath(), lines);
+            File.WriteAllLines(fileName.FullFilePath(), lines); //creates file -- but does not create path
         }
     }
 }
