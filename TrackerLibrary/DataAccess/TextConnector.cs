@@ -14,7 +14,7 @@ namespace TrackerLibrary.DataAccess
         private const string PeopleFile = "PersonModels.csv";
         public PersonModel CreatePerson(PersonModel model)
         {
-            List<PersonModel> people = PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
+            List<PersonModel> people = PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels(); //reads all of the people out of the csv file
             int currentId = 1;
             if (people.Count > 0)
             {
@@ -50,5 +50,9 @@ namespace TrackerLibrary.DataAccess
 
         }
 
+        public List<PersonModel> GetPerson_ALL()
+        {
+            return PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels();
+        }
     }
 }

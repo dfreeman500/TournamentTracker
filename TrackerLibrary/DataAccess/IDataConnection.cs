@@ -16,6 +16,7 @@ namespace TrackerLibrary.DataAccess
     {
         PrizeModel CreatePrize(PrizeModel model);
         PersonModel CreatePerson(PersonModel model);
+        List<PersonModel> GetPerson_ALL(); //gets all of the persons
 
     }
 }
