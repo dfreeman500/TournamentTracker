@@ -16,7 +16,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             //C:\data\TournamentTracker\PrizeModels.csv
             var p = $"{ConfigurationManager.AppSettings["filePath"] }\\{ fileName }";
             return p;
-                
+
         }
         public static List<string> LoadFile(this string file) // Takes in full file path, and reads all of the lines in the file
         {
@@ -30,8 +30,8 @@ namespace TrackerLibrary.DataAccess.TextHelpers
         public static List<PrizeModel> ConvertToPrizeModels(this List<string> lines)
         {
             List<PrizeModel> output = new List<PrizeModel>();
-            
-            foreach(string line in lines)
+
+            foreach (string line in lines)
             {
                 string[] cols = line.Split(',');
 
@@ -47,7 +47,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 
         }
 
-        public static List<PersonModel> ConvertToPersonModels(this List<string> lines )
+        public static List<PersonModel> ConvertToPersonModels(this List<string> lines)
         {
             List<PersonModel> output = new List<PersonModel>();
             foreach (string line in lines)
@@ -63,10 +63,36 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
             return output;
         }
+
+        public static List<TeamModel> ConvertToTeamModels(this List<string> lines, string peopleFileName)
+        {
+            //id, team name, list of person, list of ids separated by the pipe
+            // 3, Tim's team, 1 | 3|5
+            List<TeamModel> output = new List<TeamModel>();
+            List<PersonModel> people = peopleFileName.FullFilePath().LoadFile().ConvertToPersonModels(); //reads all of the people out of the csv file
+
+            foreach (string line in lines)
+            {
+                string[] cols = line.Split(',');
+                TeamModel t = new TeamModel();
+                t.Id = int.Parse(cols[0]);
+                t.TeamName = cols[1];
+
+                string[] personIds = cols[2].Split('|'); //takes 3rd column, splits it by pipe and puts in array
+
+                foreach (string id in personIds)
+                {
+                    t.TeamMembers.Add(people.Where(x => x.Id == int.Parse(id)).First()); //takes list of all people in text file and searches for where id of person in the list equals id of a specific person
+
+                }
+
+            }
+            return output;
+        }
         public static void SaveToPrizeFile(this List<PrizeModel> models, string fileName)
         {
             List<string> lines = new List<string>();
-            foreach(PrizeModel p in models)
+            foreach (PrizeModel p in models)
             {
                 lines.Add($"{p.Id}, {p.PlaceNumber}, {p.PlaceName}, {p.PrizeAmount}, {p.PrizePercentage}");
 
@@ -82,6 +108,33 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                 lines.Add($"{p.Id},{p.FirstName},{p.LastName},{p.EmailAddress},{p.CellphoneNumber}");
             }
             File.WriteAllLines(filename.FullFilePath(), lines);
+        }
+        public static void SaveToTeamFile(this List<TeamModel> models, string fileName)
+        {
+            List<string> lines = new List<string>();
+            foreach (TeamModel t in models)
+            {
+                lines.Add($"{t.Id},{t.TeamName},{ConvertPeopleListToString(t.TeamMembers)}");
+            }
+            File.WriteAllLines(fileName.FullFilePath(), lines);
+
+        }
+
+        private static string ConvertPeopleListToString(List<PersonModel> people)
+        {
+            string output = "";
+
+            if (people.Count == 0)
+            {
+                return "";
+            }
+            foreach (PersonModel p in people)
+            {
+                output += $"{p.Id}|";
+            }
+            output = output.Substring(0, output.Length - 1); // removes last pipe from string
+            return output;
+
         }
     }
 }
