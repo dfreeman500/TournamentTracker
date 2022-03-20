@@ -21,7 +21,7 @@ namespace TrackerLibrary.DataAccess
         {
             using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
             {
-                var p = new DynamicParameters();
+                var p = new DynamicParameters(); //the compiler does not check the type of the dynamic type variable at compile-time, instead of this, the compiler gets the type at the run time.
                 p.Add("@FirstName", model.FirstName);
                 p.Add("@LastName", model.LastName);
                 p.Add("@EmailAddress", model.EmailAddress);
@@ -95,6 +95,28 @@ namespace TrackerLibrary.DataAccess
                 
                 // call stored procedure exec dbo.spPeople_GetAll
                 output = connection.Query<PersonModel>("dbo.spPeople_GetAll").ToList();
+            }
+            return output;
+        }
+
+        public List<TeamModel> GetTeam_All()
+        {
+            List<TeamModel> output;
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+            {
+
+                // call stored procedure exec dbo.spPeople_GetAll
+                output = connection.Query<TeamModel>("dbo.spTeam_GetAll").ToList(); //populated TeamModel list
+
+                foreach (TeamModel team in output)
+                {
+                    var p = new DynamicParameters();
+                    p.Add("@TeamId", team.Id);
+
+                    team.TeamMembers = connection.Query<PersonModel>("dbo.spTeamMembers_GetByTeam", p, commandType: CommandType.StoredProcedure).ToList(); //for each team in list of teams - query the team members list
+
+                }
             }
             return output;
         }
