@@ -12,7 +12,7 @@ using TrackerLibrary.Models;
 
 namespace TrackerUI
 {
-    public partial class CreateTournamentForm : Form
+    public partial class CreateTournamentForm : Form, IPrizeRequester, ITeamRequester  // Inherits from (1) parent -- Form. Implements/fulfills contracts for IPrizeRequester,ITeamRequester, allows for loose coupling. An interface doesn't actually bring in code.
     {
         List<TeamModel> availableTeams = GlobalConfig.Connection.GetTeam_All(); //gets all of the teams and puts them in this list of teamModel
         List<TeamModel> selectedTeams = new List<TeamModel>();
@@ -63,5 +63,66 @@ namespace TrackerUI
                 WireUpLists();
             }
         }
+        /// <summary>
+        /// Calls create prize form
+        /// gets back from the form a prizemodel
+        /// take the prizemodel and put it into our list of selected prizes
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void createPrizeButton_Click(object sender, EventArgs e)
+        {
+            //this keyword represents this specific instance
+            CreatePrizeForm frm = new CreatePrizeForm(this); //instantiates a new prizeform
+            frm.Show(); //shows the form
+        }
+
+        
+        /// <summary>
+        /// 1.) Get back from the form a PrizeModel
+        /// 2.) Take the PrizeModel and put it into our list of selected prizes
+        /// </summary>
+        /// <param name="model"></param>
+        public void PrizeComplete(PrizeModel model)
+        {
+            selectedPrizes.Add(model);
+            WireUpLists();
+        }
+
+        public void TeamComplete(TeamModel model)
+        {
+            selectedTeams.Add(model);
+            WireUpLists();
+        }
+
+        private void createNewTeamLink_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            CreateTeamForm frm = new CreateTeamForm(this);
+            frm.Show();
+        }
+
+        private void removeSelectedPlayerButton_Click(object sender, EventArgs e)
+        {
+
+            TeamModel t = (TeamModel)tournamentTeamsListBox.SelectedItem; //taking selected item and casting it to a TeamModel
+
+            if (t != null)
+            {
+                selectedTeams.Remove(t);
+                availableTeams.Add(t);
+                WireUpLists();
+            }
+        }
+
+        private void removeSelectedPrizeButton_Click(object sender, EventArgs e)
+        {
+            PrizeModel p = (PrizeModel)prizesListBox.SelectedItem;
+            if (p != null)
+            {
+                selectedPrizes.Remove(p);
+                //prizes don't get reused for different tournaments
+            }
+        }
     }
 }
+

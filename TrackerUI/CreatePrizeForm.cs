@@ -15,9 +15,11 @@ namespace TrackerUI
 {
     public partial class CreatePrizeForm : Form
     {
-        public CreatePrizeForm()
+        IPrizeRequester callingForm; //creates a variable at the class level that stores whatever is passed into the constructor - need to know this outside of CreatePrizeForm scope
+        public CreatePrizeForm(IPrizeRequester caller)
         {
             InitializeComponent();
+            callingForm = caller;
         }
 
         private void createPrizeButton_Click(object sender, EventArgs e)
@@ -30,12 +32,18 @@ namespace TrackerUI
                     prizeAmountValue.Text, 
                     prizePercentageValue.Text);
 
-                    GlobalConfig.Connection.CreatePrize(model);
-                
-                placeNameValue.Text= "";
-                placeNumberValue.Text = "";
-                prizeAmountValue.Text = "0";
-                prizePercentageValue.Text = "0";
+                   model =  GlobalConfig.Connection.CreatePrize(model); //now have fully completed model w/ Id
+
+
+                // want to send the prize model back to the caller
+
+                callingForm.PrizeComplete(model); // called the Parent and returns the requested model.model will only be created if a valid form
+
+                this.Close(); //closes this current prizeform
+                //placeNameValue.Text= "";
+                //placeNumberValue.Text = "";
+                //prizeAmountValue.Text = "0";
+                //prizePercentageValue.Text = "0";
             }
             else
             {
