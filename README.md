@@ -1,4 +1,4 @@
-# TournamentTracker
+# Tournament Tracker
 Tracks Matches in an elimination style tournament
 
 
