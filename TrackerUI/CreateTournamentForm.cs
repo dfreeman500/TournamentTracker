@@ -123,6 +123,43 @@ namespace TrackerUI
                 //prizes don't get reused for different tournaments
             }
         }
+
+        /// <summary>
+        /// Validate Data
+        /// Create Tournament Model
+        /// Create Tournament Entry
+        /// Create all of the prizes entries
+        /// Create all of the team entries
+        /// Create Matchups
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void createTournamentButton_Click(object sender, EventArgs e)
+        {
+            decimal fee = 0;
+            bool feeAcceptable = decimal.TryParse(entryFeeValue.Text, out fee); // attempts to convert to decimal if can - sends value out to fee variable, if can't sends 0 out to fee and will send false as a result of this method
+
+            if (!feeAcceptable)
+            {
+                MessageBox.Show("You need to enter a valid entry fee",
+                    "Invalid Fee",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+
+
+            TournamentModel tm = new TournamentModel();
+            tm.TournamentName = tournamentNameValue.Text;
+            tm.EntryFee = fee;
+
+            tm.Prizes = selectedPrizes;
+            tm.EnteredTeams = selectedTeams;
+          
+
+
+        }
     }
 }
 

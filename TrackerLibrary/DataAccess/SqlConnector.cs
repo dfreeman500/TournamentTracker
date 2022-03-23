@@ -86,6 +86,13 @@ namespace TrackerLibrary.DataAccess
 
         }
 
+        public TournamentModel CreateTournament(TournamentModel model)
+        {
+
+
+
+        }
+
         public List<PersonModel> GetPerson_ALL()
         {
             List<PersonModel> output;
