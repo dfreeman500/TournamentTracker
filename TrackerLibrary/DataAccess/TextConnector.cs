@@ -13,7 +13,7 @@ namespace TrackerLibrary.DataAccess
         private const string PrizesFile = "PrizeModels.csv"; //because private const string notation ...is uppercase
         private const string PeopleFile = "PersonModels.csv";
         private const string TeamFile = "TeamModels.csv";
-        
+
         public PersonModel CreatePerson(PersonModel model)
         {
             List<PersonModel> people = PeopleFile.FullFilePath().LoadFile().ConvertToPersonModels(); //reads all of the people out of the csv file
@@ -66,7 +66,7 @@ namespace TrackerLibrary.DataAccess
             teams.Add(model);
             teams.SaveToTeamFile(TeamFile);
             return model;
-            
+
         }
 
         public List<PersonModel> GetPerson_ALL()
@@ -76,7 +76,7 @@ namespace TrackerLibrary.DataAccess
 
         public List<TeamModel> GetTeam_All()
         {
-            throw new NotImplementedException();
+            return TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(PeopleFile);
         }
     }
 }
