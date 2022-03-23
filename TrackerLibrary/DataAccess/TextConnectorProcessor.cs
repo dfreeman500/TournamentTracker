@@ -85,6 +85,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                     t.TeamMembers.Add(people.Where(x => x.Id == int.Parse(id)).First()); //takes list of all people in text file and searches for where id of person in the list equals id of a specific person
 
                 }
+                output.Add(t);
 
             }
             return output;

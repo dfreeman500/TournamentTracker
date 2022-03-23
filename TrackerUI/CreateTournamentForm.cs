@@ -40,7 +40,7 @@ namespace TrackerUI
             tournamentTeamsListBox.DisplayMember = "TeamName";
 
 
-            prizesListBox = null; //allows to reset list and allow to rebind
+            prizesListBox.DataSource = null; //allows to reset list and allow to rebind
             prizesListBox.DataSource = selectedPrizes;
             prizesListBox.DisplayMember = "PlaceName";
 
