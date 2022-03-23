@@ -13,6 +13,7 @@ namespace TrackerLibrary.DataAccess
         private const string PrizesFile = "PrizeModels.csv"; //because private const string notation ...is uppercase
         private const string PeopleFile = "PersonModels.csv";
         private const string TeamFile = "TeamModels.csv";
+        private const string TournamentFile = "TournamentModels.csv";
 
         public PersonModel CreatePerson(PersonModel model)
         {
@@ -56,6 +57,7 @@ namespace TrackerLibrary.DataAccess
         {
             List<TeamModel> teams = TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(PeopleFile);
 
+            //finds the max id
             int currentId = 1;
             if (teams.Count > 0)
             {
@@ -71,7 +73,23 @@ namespace TrackerLibrary.DataAccess
 
         public TournamentModel CreateTournament(TournamentModel model)
         {
-            throw new NotImplementedException();
+            List<TournamentModel> tournaments = TournamentFile
+                .FullFilePath()
+                .LoadFile()
+                .ConvertToTournamentModels(TeamFile, PeopleFile, PrizesFile);
+
+            int currentId = 1;
+
+            if(tournaments.Count>0)
+            {
+                currentId = tournaments.OrderByDescending(x => x.Id).First().Id + 1;
+
+            }
+            model.Id = currentId;
+
+            tournaments.Add(model);
+
+            tournaments.SaveToTournamentFile();
         }
 
         public List<PersonModel> GetPerson_ALL()
