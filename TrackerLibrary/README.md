@@ -1,7 +1,8 @@
 ﻿## Tournament Tracker
 
-This project was made using Tim Corey's ~24-hour long C# tutorial found at https://www.youtube.com/watch?v=wfWxdh-_k_4&t=29308s
-I recommend this tutorial as he shows goes in great detail regarding the logic for his decision-making.
+This project was made using Tim Corey's ~24-hour long C# tutorial found at https://youtu.be/wfWxdh-_k_4 
+
+Even though it is very long, I recommend this tutorial because he goes in great detail regarding his rationale for his decision-making.
 
 
 

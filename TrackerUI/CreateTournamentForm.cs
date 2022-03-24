@@ -159,7 +159,9 @@ namespace TrackerUI
 
             GlobalConfig.Connection.CreateTournament(tm);
           
+            //TODO wire up matchup
 
+            
 
         }
     }

@@ -8,7 +8,7 @@ namespace TrackerLibrary.Models
 {
     public class PersonModel
     {
-        //unique identifier for prize
+        //unique identifier 
         public int Id { get; set; }
         public string FirstName  { get; set; }
         public string LastName { get; set; }
