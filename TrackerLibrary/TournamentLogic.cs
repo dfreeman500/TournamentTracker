@@ -25,7 +25,7 @@ namespace TrackerLibrary
             CreateOtherRounds(model, rounds);
         }
 
-        private static void CreateOtherRounds(TournamentModel model, int rounds)
+        private static void CreateOtherRounds(TournamentModel model, int rounds) //TournamentModel model gets populated with all of the sets of rounds
         {
             int round = 2; //already created the first round
             List<MatchupModel> previousRound = model.Rounds[0];
@@ -41,11 +41,22 @@ namespace TrackerLibrary
                     currMatchup.Entries.Add(new MatchupEntryModel { ParentMatchup = match }); // added new matchup entry where the parents match
                     if (currMatchup.Entries.Count > 1)
                     {
+                        currMatchup.MatchupRound = round;
                         currRound.Add(currMatchup);
                         currMatchup = new MatchupModel();
                     }
                 
                 }
+
+
+                model.Rounds.Add(currRound);
+                previousRound = currRound; 
+                currRound = new List<MatchupModel>();
+                round += 1; 
+
+
+
+
             }
 
         }
