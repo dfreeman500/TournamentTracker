@@ -23,10 +23,7 @@ namespace TrackerLibrary.Models
         public MatchupModel ParentMatchup { get; set; }
 
 
-        public MatchupEntryModel(double initialScore)
-        {
 
-        }
 
     }
 }

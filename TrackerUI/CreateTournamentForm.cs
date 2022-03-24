@@ -136,6 +136,7 @@ namespace TrackerUI
         /// <param name="e"></param>
         private void createTournamentButton_Click(object sender, EventArgs e)
         {
+            //validate data
             decimal fee = 0;
             bool feeAcceptable = decimal.TryParse(entryFeeValue.Text, out fee); // attempts to convert to decimal if can - sends value out to fee variable, if can't sends 0 out to fee and will send false as a result of this method
 
@@ -157,9 +158,22 @@ namespace TrackerUI
             tm.Prizes = selectedPrizes;
             tm.EnteredTeams = selectedTeams;
 
+            //TODO wire up matchups
+            TournamentLogic.CreateRounds(tm); //does all the work of creating the rounds
+
+
+
+
+            // Order lists randomly of teams
+            // check if it is big enough - if not add in Byes
+            // create first riybd if matchups
+            // create every round after that. 8 - 4 - 2 - 1
+            // 
+
+
+
             GlobalConfig.Connection.CreateTournament(tm);
           
-            //TODO wire up matchup
 
             
 
