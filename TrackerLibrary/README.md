@@ -20,4 +20,3 @@ Instructions:
 
 
 
-Future Directions: Add SQL capability (right now persistent storage is only through csv)
