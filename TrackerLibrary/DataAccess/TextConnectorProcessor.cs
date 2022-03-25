@@ -11,7 +11,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 {
     public static class TextConnectorProcessor
     {
-        public static string FullFilePath(this string fileName) //PrizeModel.csv  //becomes an extension method
+        public static string FullFilePath(this string fileName)  //becomes an extension method
         {
             //C:\data\TournamentTracker\PrizeModels.csv
             var p = $"{ConfigurationManager.AppSettings["filePath"] }\\{ fileName }";
@@ -169,6 +169,43 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
             File.WriteAllLines(filename.FullFilePath(), lines);
         }
+
+        public static void SaveRoundsToFile(this TournamentModel model, string matchupFile, string matchupEntryFile)
+        {
+            // loop through each round
+            // loop through each matchup
+            // save the id for the new matchup and save the record
+            // loop through each entry, get the id, and save it
+
+            foreach (List<MatchupModel> round in model.Rounds)
+            {
+                foreach (MatchupModel matchup in round)
+                {
+                    //Load all of the matchups from file
+                    //get top id and add one
+                    //store id
+                    //save the matchup record
+                    matchup.SaveMatchupToFile(matchupFile, matchupEntryFile);
+
+                }
+            }
+
+        }
+        public static void SaveMatchupToFile(this MatchupModel matchup, string matchupFile, string matchupEntryFile)
+        {
+
+
+            foreach (MatchupEntryModel entry in matchup.Entries)
+            {
+                entry.SaveEntryToFile(matchupEntryFile);
+            }
+        }
+
+        public static void SaveEntryToFile(this MatchupModel entry, string matchupEntryFile)
+        {
+
+        }
+
         public static void SaveToTeamFile(this List<TeamModel> models, string fileName)
         {
             List<string> lines = new List<string>();
