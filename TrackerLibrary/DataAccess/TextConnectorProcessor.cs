@@ -192,26 +192,72 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 
         }
 
-        private static List<MatchupEntryModel> ConvertStringToMatchupEntryModels(string input)
+        public static List<MatchupEntryModel> ConvertToMatchupEntryModels(this List<string> lines)
         {
-            throw new NotImplementedException();
+
+            List<MatchupEntryModel> output = new List<MatchupEntryModel>();
+
+            //id=0, teamCompeting=1, score=2, parentmatchup =3
+
+            foreach (string line in lines)
+            {
+                string[] cols = line.Split(',');
+                MatchupEntryModel me = new MatchupEntryModel();
+                me.Id = int.Parse(cols[0]);
+                me.TeamCompeting = LookupTeamById(int.Parse(cols[1]));
+                me.Score = double.Parse(cols[2]);
+                me.ParentMatchup = LookupMatchupById(int.Parse(cols[3]));
+            }
+            //List<PersonModel> output = new List<PersonModel>();
+            //foreach (string line in lines)
+            //{
+            //    string[] cols = line.Split(',');
+            //    PersonModel p = new PersonModel();
+            //    p.Id = int.Parse(cols[0]);
+            //    p.FirstName = cols[1];
+            //    p.LastName = cols[2];
+            //    p.EmailAddress = cols[3];
+            //    p.CellphoneNumber = cols[4];
+            //    output.Add(p);
+            //}
+            //return output;
         }
 
-        private static TeamModel LookupTeamById(int Id, string teamFile, string peopleFile)
+        private static List<MatchupEntryModel> ConvertStringToMatchupEntryModels(string input)
         {
-            List<TeamModel> teams = teamFile.FullFilePath().LoadFile().ConvertToTeamModels(peopleFile);
-            throw new NotImplementedException();
+            string[] ids = input.Split('|');
+            List<MatchupEntryModel> output = new List<MatchupEntryModel>();
+            List<MatchupEntryModel> entries = GlobalConfig.MatchupEntryFile.FullFilePath().LoadFile().ConvertToMatchupEntryModels(); 
+            
+            
+            foreach(string id in ids)
+            {
 
+
+                output.Add(entries.Where(x => x.Id == int.Parse(id)).First()); ;
+            }
+
+            return output;
+        }
+
+        private static TeamModel LookupTeamById(int Id)
+        {
+            List<TeamModel> teams = GlobalConfig.TeamFile.FullFilePath().LoadFile().ConvertToTeamModels(GlobalConfig.PeopleFile);
+            
+            return teams.Where(x => x.Id == Id).First(); //returning the first id which matches the passed in id
+            
+
+        }
+
+        private static MatchupModel LookupMatchupById(int id)
+        {
+            List<MatchupModel> matchups = GlobalConfig.MatchupFile.FullFilePath().LoadFile().ConvertToMatchupModels();
+            return matchups.Where(x => x.Id == id).First();
         }
 
         public static List<MatchupModel> ConvertToMatchupModels(this List<string> lines)
         {
-            //id=0
-            //entries=1 (pipe delimited)
-            // winner = 2
-            //matchupRound=3
-
-
+     
             List<MatchupModel> output = new List<MatchupModel>();
 
             foreach (string line in lines)
