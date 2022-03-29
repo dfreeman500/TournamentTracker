@@ -92,7 +92,7 @@ namespace TrackerLibrary
 
             int output = 0;
 
-            int totalTeams = 0;
+            int totalTeams = 1;
 
             for (int i = 1; i <= rounds; i++)
             {

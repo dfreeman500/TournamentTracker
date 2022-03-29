@@ -218,7 +218,15 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                 string[] cols = line.Split(',');
                 MatchupEntryModel me = new MatchupEntryModel();
                 me.Id = int.Parse(cols[0]);
-                me.TeamCompeting = LookupTeamById(int.Parse(cols[1]));
+                if (cols[1].Length ==0)
+                {
+                    me.TeamCompeting = null;
+                }
+                else
+                {
+                    me.TeamCompeting = LookupTeamById(int.Parse(cols[1]));
+
+                }
                 me.Score = double.Parse(cols[2]);
 
                 int parentId = 0;
@@ -323,7 +331,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                 {
                     winner = m.Winner.Id.ToString(); //protects against a null e.ParentMatchup
                 }
-                lines.Add($"{m.Id},{ConvertMatchupEntryListToString(m.Entries)},{ winner },{ m.MatchupRound }");
+                lines.Add($"{ m.Id },{ ConvertMatchupEntryListToString(m.Entries) },{ winner },{ m.MatchupRound }");
             }
             File.WriteAllLines(GlobalConfig.MatchupFile.FullFilePath(), lines);
 
@@ -356,7 +364,12 @@ namespace TrackerLibrary.DataAccess.TextHelpers
                 {
                     parent = e.ParentMatchup.Id.ToString(); //protects against a null e.ParentMatchup
                 }
-                lines.Add($"{ e.Id },{ e.TeamCompeting },{ e.Score },{ parent }");
+                string teamCompeting = "";
+                if (e.TeamCompeting !=null)
+                {
+                    teamCompeting = e.TeamCompeting.Id.ToString();
+                }
+                lines.Add($"{ e.Id },{ teamCompeting },{ e.Score },{ parent }");
             }
             File.WriteAllLines(GlobalConfig.MatchupEntryFile.FullFilePath(), lines);
         }
@@ -388,12 +401,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 
             foreach (TournamentModel tm in models)
             {
-                lines.Add($@"{ tm.Id }, 
-                    { tm.TournamentName }, 
-                    { tm.EntryFee }, 
-                    { ConvertTeamListToString(tm.EnteredTeams) }, 
-                    { ConvertPrizeListToString(tm.Prizes) },
-                    { ConvertRoundListToString(tm.Rounds) }"); 
+                lines.Add($"{ tm.Id },{ tm.TournamentName },{ tm.EntryFee },{ ConvertTeamListToString(tm.EnteredTeams) },{ ConvertPrizeListToString(tm.Prizes) },{ ConvertRoundListToString(tm.Rounds) }"); 
             }
             File.WriteAllLines(fileName.FullFilePath(), lines);
 
@@ -448,7 +456,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
             foreach (MatchupEntryModel e in entries)
             {
-                output += $"{e.Id}|";
+                output += $"{ e.Id }|";
             }
             output = output.Substring(0, output.Length - 1); // removes last pipe from string
             return output;
