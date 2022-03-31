@@ -14,7 +14,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
         public static string FullFilePath(this string fileName)  //becomes an extension method
         {
             //C:\data\TournamentTracker\PrizeModels.csv
-            var p = $"{ConfigurationManager.AppSettings["filePath"] }\\{ fileName }";
+            var p = $"{ ConfigurationManager.AppSettings["filePath"] }\\{ fileName }";
             return p;
 
         }
@@ -173,7 +173,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             List<string> lines = new List<string>();
             foreach (PrizeModel p in models)
             {
-                lines.Add($"{p.Id}, {p.PlaceNumber}, {p.PlaceName}, {p.PrizeAmount}, {p.PrizePercentage}");
+                lines.Add($"{ p.Id },{ p.PlaceNumber },{ p.PlaceName },{ p.PrizeAmount },{ p.PrizePercentage }");
 
             }
             File.WriteAllLines(fileName.FullFilePath(), lines); //creates file -- but does not create path
@@ -184,7 +184,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             List<string> lines = new List<string>();
             foreach (PersonModel p in models)
             {
-                lines.Add($"{p.Id},{p.FirstName},{p.LastName},{p.EmailAddress},{p.CellphoneNumber}");
+                lines.Add($"{ p.Id },{ p.FirstName },{ p.LastName },{ p.EmailAddress },{ p.CellphoneNumber }");
             }
             File.WriteAllLines(filename.FullFilePath(), lines);
         }
@@ -310,11 +310,25 @@ namespace TrackerLibrary.DataAccess.TextHelpers
 
             if(matchups.Count >0)
             {
-                currentId = matchups.OrderByDescending(ConfigXmlDocument => ConfigXmlDocument.Id).First().Id + 1;
+                currentId = matchups.OrderByDescending(x => x.Id).First().Id + 1;
             }
 
             matchup.Id = currentId;
 
+            matchups.Add(matchup);
+
+            //save to file
+            List<string> lines = new List<string>();
+            foreach (MatchupModel m in matchups)
+            {
+                string winner = "";
+                if (m.Winner != null)
+                {
+                    winner = m.Winner.Id.ToString(); //protects against a null e.ParentMatchup
+                }
+                lines.Add($"{ m.Id },{ "" },{ winner },{ m.MatchupRound }");
+            }
+            File.WriteAllLines(GlobalConfig.MatchupFile.FullFilePath(), lines);
 
 
             foreach (MatchupEntryModel entry in matchup.Entries)
@@ -323,7 +337,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
 
             //save to file
-            List<string> lines = new List<string>();
+            lines = new List<string>();
             foreach (MatchupModel m in matchups)
             {
                 string winner = "";
@@ -380,7 +394,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             List<string> lines = new List<string>();
             foreach (TeamModel t in models)
             {
-                lines.Add($"{t.Id},{t.TeamName},{ConvertPeopleListToString(t.TeamMembers)}");
+                lines.Add($"{ t.Id },{ t.TeamName },{ ConvertPeopleListToString(t.TeamMembers) }");
             }
             File.WriteAllLines(fileName.FullFilePath(), lines);
 
@@ -420,7 +434,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
             foreach (List<MatchupModel> r in rounds)
             {
-                output += $"{ConvertMatchupListToString(r)}|";
+                output += $"{ ConvertMatchupListToString(r) }|";
             }
             output = output.Substring(0, output.Length - 1); // removes last pipe from string
             return output;
@@ -439,7 +453,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
             foreach (MatchupModel m in matchups)
             {
-                output += $"{m.Id}^";
+                output += $"{ m.Id }^";
             }
             output = output.Substring(0, output.Length - 1); // removes last pipe from string
             return output;
@@ -475,7 +489,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
             foreach (PrizeModel p in prizes)
             {
-                output += $"{p.Id}|";
+                output += $"{ p.Id }|";
             }
             output = output.Substring(0, output.Length - 1); // removes last pipe from string
             return output;
@@ -494,7 +508,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
             foreach (TeamModel t in teams)
             {
-                output += $"{t.Id}|";
+                output += $"{ t.Id }|";
             }
             output = output.Substring(0, output.Length - 1); // removes last pipe from string
             return output;
@@ -513,7 +527,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
             }
             foreach (PersonModel p in people)
             {
-                output += $"{p.Id}|";
+                output += $"{ p.Id }|";
             }
             output = output.Substring(0, output.Length - 1); // removes last pipe from string
             return output;
