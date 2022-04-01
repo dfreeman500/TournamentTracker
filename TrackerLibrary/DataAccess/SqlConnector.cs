@@ -229,5 +229,50 @@ namespace TrackerLibrary.DataAccess
             }
             return output;
         }
+
+        public List<TournamentModel> GetTournament_ALL()
+        {
+            List<TournamentModel> output;
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+            {
+
+                // call stored procedure exec dbo.spPeople_GetAll
+                output = connection.Query<TournamentModel>("dbo.spTournaments_GetAll").ToList();
+
+
+                foreach (TournamentModel t in output)
+                {
+                    //prizes will be populated for each tournament model inside the list
+
+                    t.Prizes = connection.Query<PrizeModel>("dbo.spPrizes_GetByTournament").ToList();
+
+
+                    // populate teams
+                    t.EnteredTeams = connection.Query<TeamModel>("dbo.spTeam_GetByTournament").ToList(); //populated TeamModel list
+
+                    foreach (TeamModel team in t.EnteredTeams)
+                    {
+                        var p = new DynamicParameters();
+                        p.Add("@TeamId", team.Id);
+
+                        team.TeamMembers = connection.Query<PersonModel>("dbo.spTeamMembers_GetByTeam", p, commandType: CommandType.StoredProcedure).ToList(); //for each team in list of teams - query the team members list
+
+                    }
+
+                    // populate rounds
+
+
+
+
+
+
+                }
+
+
+
+            }
+            return output;
+        }
     }
 }

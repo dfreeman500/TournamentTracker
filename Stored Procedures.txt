@@ -1,0 +1,291 @@
+11:34:22
+12:36:07
+
+
+--------------------------------------------------
+
+
+possible error in visual studio 2022 regarding "SqlClient" upon opening the connection to  database. Go to Project >Manage NuGet Packages and install "System.Data.SqlClient"
+
+----------------------------------------------------------------------
+CREATE PROCEDURE dbo.spTeams_Insert
+	@TeamName nvarchar(100),
+	@id int = 0 output
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	insert into dbo.Teams (TeamName)
+	values (@TeamName);
+
+	select @id = SCOPE_IDENTITY();
+
+END
+GO
+
+
+
+------------------------------------------------------------------------
+
+
+CREATE PROCEDURE dbo.spTeamMembers_Insert
+	@TeamId int,
+	@PersonId int,
+	@id int = 0 output
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	insert into dbo.TeamMembers(TeamId, PersonId)
+	values (@TeamId, @PersonId);
+
+	select @id = SCOPE_IDENTITY();
+
+END
+GO
+
+-------------------------------------------------------------------------
+17:19:09
+
+USE [Tournaments]
+GO
+/***** object: Stored procedure [dbo].[spTeam_GetByTournament]
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED _IDENTIFIER ON
+GO
+-- gets the current teams for a given tournament
+ALTER procedure [dbo].[spTeam_GetByTournament]
+	@TournamentId int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from interferring with select statements
+	SET NOCOUNT ON;
+
+	select t.*
+	from dbo.Teams t
+	inner join dbo.TournamentEntries e on t.id = e.TeamId
+	where e.TournamentId = @TournamentId;
+
+END
+
+
+----------------------------------------------------------------------
+CREATE PROCEDURE dbo.spTeam_GetAll
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	select *
+	from dob.Teams;
+End
+GO
+
+------------------------------------------------------------------------
+
+USE [Tournaments]
+GO
+/*****object: stored procedure [dbo].[spTeamMembers_GetByTeam]
+SET ANSI_NULLS ON
+GO
+-- Gets the people on a given team
+ALTER PROCEDURE [dbo].[spTeamMembers_GetByTeam]
+	@TeamId int
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from 
+	-- interferring with SELECT statements
+	SET NOCOUNT ON;
+
+	select p.*
+	from dbo.TeamMembers m
+	inner join dbo.People p on m. PersonId = p.id
+	where m.TeamID = @TeamId
+
+END
+
+-------------------------------------------------
+ALTER PROCEDURE - if already ran procedure (added @id after already ran)
+-------------------------------
+Create PROCEDURE dbo.spTournaments_Insert
+	@TournamentName nvarchar(200),
+	@EntryFee money
+	@id int = 0 output
+
+AS 
+BEGIN
+	SET NOCOUNT ON;
+
+	insert into dbo.Tournaments (TournamentName, EntryFee, Active)
+	values (@TournamentName, @EntryFee, 1);
+
+	select @id = SCOPE_IDENTITY();
+END
+GO
+
+---------------------------------------------------------------------------
+
+CREATE PROCEDURE dbo.spTournamentPrizes_Insert
+	@TournamentId int,
+	@PrizeId int,
+	@id int = 0 output
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+	insert into dbo.TournamentPrizes( TournamentId, PrizeId)
+	values (@TournamentId, @PrizeId);
+
+	select @id = SCOPE_IDENTITY();
+
+
+END
+GO
+------------------------------------------------------------------------------
+
+CREATE PROCEDURE dbo.spTournamentEntries_Insert
+	@TournamentId int,
+	@TeamId int,
+	@id int = 0 output
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	insert into dbo.TournamentEntries (TournamentId, TeamId)
+	values (@TournamentId, @TeamId);
+
+	select @id = SCOPE_IDENTITY();
+
+END
+GO
+
+-----------------------------------------------------------------------------------
+
+CREATE PROCEDURE dbo.spMatchups_Insert
+	@TournamentId int,
+	@WinnerId int,
+	@MatchupRound int,
+	@id int = 0 output
+
+
+
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+	insert into dbo.Matchups (TournamentId, MatchupRound)
+	values (@TournamentId, @MatchupRound);
+
+	select @Id = SCOPE_IDENTITY();
+
+
+END
+GO
+
+---------------------------------------------------------------------------
+
+CREATE PROCEDURE dbo.spMatchupEntries_Insert
+	@MatchupID int,
+	@ParentMatchupId int,
+	@TeamCompetingId int,
+	@id int = 0 output
+	
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	insert into dbo.MatchupEntries (MatchupId, ParentMatchupId, TeamCompetingId)
+	values (@MatchupId, @ParentMatchupId, @TeamCompetingId);
+
+	
+	select @Id = SCOPE_IDENTITY();
+
+
+END
+GO
+
+
+-----------------------------------------------------------------------------------
+17:13:35
+
+USE [Tournaments]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[spTournaments_GetAll]
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from 
+	--interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	select *
+	from dbo.Tournaments
+	where Active = 1;
+
+END
+---------------------------------------------------------------------------------------------
+17:17:14
+
+USE [Tournaments]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[spPrizes_GetByTournament]
+	@TournamentId int
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	select p.*
+	from dbo.Prizes p
+	inner join dbo.TournamentPrizes t on p.id = t.PrizeId
+	where t.Tournament = @TournamentId;
+
+END
+
+
+------------------------------------------------------------------------
+17:20:55
+
+USE [Tournaments]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+ALTER PROCEDURE [dbo].[spMatchups_GetByTournament]
+	@TournamentId int
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	select m.*
+	from dob.Matchups m
+	where m.TournamentId = @TournamentId;
+
+END
+
+----------------------------------------------------------------------------
