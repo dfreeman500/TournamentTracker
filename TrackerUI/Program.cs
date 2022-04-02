@@ -18,12 +18,12 @@ namespace TrackerUI
             Application.SetCompatibleTextRenderingDefault(false);
             TrackerLibrary.GlobalConfig.InitializeConnections(TrackerLibrary.DatabaseType.TextFile);
             //Application.Run(new CreateTeamForm()); // sets the first form to open up to
-            Application.Run(new CreateTournamentForm());
-            //pplication.Run(new TournamentDashboardForm()); // sets the first form to open up to
+            //Application.Run(new CreateTournamentForm());
+            Application.Run(new TournamentDashboardForm()); // sets the first form to open up to
         }
     }
 }
 
 
-//TODO 17:09:10
+//TODO 18:29:41
 // Add Delete Tournament Option to Tournament Dashboard

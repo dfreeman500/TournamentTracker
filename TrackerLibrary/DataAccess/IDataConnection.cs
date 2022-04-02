@@ -20,8 +20,8 @@ namespace TrackerLibrary.DataAccess
 
         void CreateTournament(TournamentModel model);
         List<TeamModel> GetTeam_All(); //gets all teams and puts them in a list
-        List<PersonModel> GetPerson_ALL(); //gets all of the persons
-        List<TournamentModel> GetTournament_ALL();
+        List<PersonModel> GetPerson_All(); //gets all of the persons
+        List<TournamentModel> GetTournament_All();
 
     }
 }

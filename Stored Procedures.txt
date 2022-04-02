@@ -285,7 +285,38 @@ BEGIN
 	select m.*
 	from dob.Matchups m
 	where m.TournamentId = @TournamentId;
+	order by MatchupRound;
 
 END
 
 ----------------------------------------------------------------------------
+17:27:34
+
+USE [Tournaments]
+GO
+
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+-- Gts all the matchups for a given tournament
+ALTER PROCEDURE [dbo].[spMatchupEntries_GetByMatchup]
+	@MatchupId int
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	select *
+	from MatchupEntries
+	where MatchupId = @MatchupId
+
+END
+
+------------------------------------------------------------------------------
+
+
+
+
