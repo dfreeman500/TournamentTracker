@@ -14,8 +14,8 @@ namespace TrackerUI
     public partial class TournamentViewerForm : Form
     {
         private TournamentModel tournament; //stored at the form level - anything on the form has access
-        List<int> rounds = new List<int>();
-        List<MatchupModel> selectedMatchups = new List<MatchupModel>();
+        BindingList<int> rounds = new BindingList<int>();
+        BindingList<MatchupModel> selectedMatchups = new BindingList<MatchupModel>();
         
         
         public TournamentViewerForm(TournamentModel tournamentModel)
@@ -50,7 +50,7 @@ namespace TrackerUI
 
         private void LoadRounds()
         {
-            rounds = new List<int>(); // initializes the rounds each time to avoid duplicate rounds upon re-running
+            rounds = new BindingList<int>(); // initializes the rounds each time to avoid duplicate rounds upon re-running
 
 
             rounds.Add(1);
@@ -81,9 +81,46 @@ namespace TrackerUI
 
         }
 
+        private void LoadMatchup()
+        {
+            MatchupModel m = (MatchupModel)matchupListBox.SelectedItem;
+            for (int i = 0; i < m.Entries.Count; i++)
+            {
+                if (i == 0)
+                {
+                    if (m.Entries[0].TeamCompeting != null)
+                    {
+                        teamOneName.Text = m.Entries[0].TeamCompeting.TeamName;
+                        teamOneScoreValue.Text = m.Entries[0].Score.ToString();
+
+                        teamTwoName.Text = "<bye>";
+                        teamTwoScoreValue.Text = "0";
+
+                    }
+                    else
+                    {
+                        teamOneName.Text = "Not Yet Set";
+                        teamOneScoreValue.Text = "";
+                    }
+                }
+                if (i == 1)
+                {
+                    if (m.Entries[1].TeamCompeting != null)
+                    {
+                        teamTwoName.Text = m.Entries[1].TeamCompeting.TeamName;
+                        teamTwoScoreValue.Text = m.Entries[1].Score.ToString();
+                    }
+                    else
+                    {
+                        teamTwoName.Text = "Not Yet Set";
+                        teamTwoScoreValue.Text = "";
+                    }
+                }
+            }
+        }
         private void mastchupListBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-
+            LoadMatchup();
         }
 
         private void roundDropDown_SelectedIndexChanged(object sender, EventArgs e)
@@ -99,7 +136,7 @@ namespace TrackerUI
             {
                 if (matchups.First().MatchupRound == round)
                 {
-                    selectedMatchups = matchups; 
+                    selectedMatchups = new BindingList<MatchupModel>(matchups);
 
                 }
             }

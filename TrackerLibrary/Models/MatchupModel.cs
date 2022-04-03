@@ -27,17 +27,24 @@ namespace TrackerLibrary.Models
 
                 foreach (MatchupEntryModel me in Entries)
                 {
-                    if (me.TeamCompeting != null)
-                    {
-                        if (output.Length == 0) //checks to see if this is the first person being entered if it is - just put name
+                    
+                        if (me.TeamCompeting != null)
                         {
-                            output = me.TeamCompeting.TeamName;
+                            if (output.Length == 0) //checks to see if this is the first person being entered if it is - just put name
+                            {
+                                output = me.TeamCompeting.TeamName;
+                            }
+                            else
+                            {
+                                output += $" vs. { me.TeamCompeting.TeamName }";
+                            }
                         }
                         else
                         {
-                            output += $" vs.{ me.TeamCompeting.TeamName }";
-                        } 
-                    }
+                            output = "Matchup Not Yet Determined";
+                            break; 
+                        }
+                   
                 }
                 return output;
             }
