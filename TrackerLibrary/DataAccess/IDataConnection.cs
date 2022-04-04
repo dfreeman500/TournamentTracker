@@ -19,6 +19,9 @@ namespace TrackerLibrary.DataAccess
         TeamModel CreateTeam(TeamModel model);
 
         void CreateTournament(TournamentModel model);
+
+        void UpdateMatchup(MatchupModel model);
+
         List<TeamModel> GetTeam_All(); //gets all teams and puts them in a list
         List<PersonModel> GetPerson_All(); //gets all of the persons
         List<TournamentModel> GetTournament_All();

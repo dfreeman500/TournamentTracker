@@ -316,6 +316,49 @@ BEGIN
 END
 
 ------------------------------------------------------------------------------
+19:45:00
+
+
+CREATE PROCEDURE dbo.spMatchups_Update
+	@id int,
+	@WinnerId, int
+
+AS
+BEGIN
+	-- SET NOCOUNT ON added to prevent extra result sets from
+	-- interfering with SELECT statements.
+	SET NOCOUNT ON;
+
+	update dbo.Matchups
+	set WinnerId = @WinnerId
+	where id = @id;
+
+END
+GO
+
+
+------------------------------------------------------------------
+19:49:54
+
+
+CREATE PROCEDURE spMatchupEntries_Update
+	@id int,
+	@TeamCompetingId int = null,
+	@Score float = null
+
+AS
+BEGIN
+
+	SET NOCOUNT ON;
+
+	update dbo.MatchupEntries
+	set TeamCompetingId = @TeamCompetingId, Score = @Score
+	where id = @id;
+
+END
+GO
+
+--------------------------------------------------------------------
 
 
 
