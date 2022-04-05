@@ -29,6 +29,7 @@ namespace TrackerUI
 
             LoadFormData();
             LoadRounds();
+            MessageBox.Show("Hello");
         }
 
 
@@ -223,46 +224,11 @@ namespace TrackerUI
                     }
                 }
             }
-            if(teamOneScore > teamTwoScore)
-            {
-                //team one wins
-                m.Winner = m.Entries[0].TeamCompeting;
-            }
-            else if (teamTwoScore> teamOneScore)
-            {
-                //team two wins
-                m.Winner = m.Entries[1].TeamCompeting;
-            } else
-            {
-                MessageBox.Show("I do not handle tie games.");
-            }
 
-            foreach(List<MatchupModel> round in tournament.Rounds)
-            {
-                foreach(MatchupModel rm in round)
-                {
-                    foreach(MatchupEntryModel me in rm.Entries) //the matchupentry holds the parent matchup
-                    {
-                        if (me.ParentMatchup != null) // first round doesn't have a parent matchup -allows to skip
-                        {
-                            if (me.ParentMatchup.Id == m.Id) //m.id is current matchup
-                            {
-                                me.TeamCompeting = m.Winner;
-                                GlobalConfig.Connection.UpdateMatchup(rm); //round matchup 
+            TournamentLogic.UpdateTournamentResults(tournament); // passing in entire model because working on entire object
 
-
-                            } 
-                        }
-                    }
-                }
-            }
-            
             LoadMatchups((int)roundDropDown.SelectedItem);
 
-
-
-
-            GlobalConfig.Connection.UpdateMatchup(m);
         }
     }
 }

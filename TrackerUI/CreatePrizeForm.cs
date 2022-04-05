@@ -32,7 +32,7 @@ namespace TrackerUI
                     prizeAmountValue.Text, 
                     prizePercentageValue.Text);
 
-                   model =  GlobalConfig.Connection.CreatePrize(model); //now have fully completed model w/ Id
+                GlobalConfig.Connection.CreatePrize(model); //now have fully completed model w/ Id
 
 
                 // want to send the prize model back to the caller

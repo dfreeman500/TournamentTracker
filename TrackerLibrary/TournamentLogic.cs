@@ -25,6 +25,65 @@ namespace TrackerLibrary
             CreateOtherRounds(model, rounds);
         }
 
+        public static void UpdateTournamentResults(TournamentModel model)
+        {
+
+            List<MatchupModel> toScore = new List<MatchupModel>(); // the matchups that need to be scored
+
+            //loop through entire tournament - i.e. loop through rounds
+
+            foreach (List<MatchupModel> round in model.Rounds)
+            {
+                foreach (MatchupModel rm in round)
+                {
+                    if (rm.Entries.Any(x=> x.Score != 0) || rm.Entries.Count == 1) //Using Linq if any entries is not == 0,
+                    {
+                        toScore.Add(rm);
+                    }                
+                }
+            }
+
+
+            //if (teamOneScore > teamTwoScore)
+            //{
+            //    //team one wins
+            //    m.Winner = m.Entries[0].TeamCompeting;
+            //}
+            //else if (teamTwoScore > teamOneScore)
+            //{
+            //    //team two wins
+            //    m.Winner = m.Entries[1].TeamCompeting;
+            //}
+            //else
+            //{
+            //    MessageBox.Show("I do not handle tie games.");
+            //}
+
+            //foreach (List<MatchupModel> round in model.Rounds)
+            //{
+            //    foreach (MatchupModel rm in round)
+            //    {
+            //        foreach (MatchupEntryModel me in rm.Entries) //the matchupentry holds the parent matchup
+            //        {
+            //            if (me.ParentMatchup != null) // first round doesn't have a parent matchup -allows to skip
+            //            {
+            //                if (me.ParentMatchup.Id == m.Id) //m.id is current matchup
+            //                {
+            //                    me.TeamCompeting = m.Winner;
+            //                    GlobalConfig.Connection.UpdateMatchup(rm); //round matchup 
+
+
+            //                }
+            //            }
+            //        }
+            //    }
+            //}
+
+
+            //GlobalConfig.Connection.UpdateMatchup(m);
+
+        }
+
         private static void CreateOtherRounds(TournamentModel model, int rounds) //TournamentModel model gets populated with all of the sets of rounds
         {
             int round = 2; //already created the first round
@@ -121,5 +180,7 @@ namespace TrackerLibrary
         {
             return teams.OrderBy(x => Guid.NewGuid()).ToList(); //sorts by Guid to get somewhat random list
         }
+    
+        
     }
 }
