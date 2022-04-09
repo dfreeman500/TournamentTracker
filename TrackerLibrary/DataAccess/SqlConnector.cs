@@ -80,6 +80,9 @@ namespace TrackerLibrary.DataAccess
                 SaveTournamentEntries(connection, model);
 
                 SaveTournamentRounds(connection, model);
+
+                TournamentLogic.UpdateTournamentResults(model); //updates the byes
+
             }
         }
 

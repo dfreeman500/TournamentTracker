@@ -162,6 +162,7 @@ namespace TrackerUI
             teamOneName.Visible = isVisible;
             teamOneScoreLabel.Visible = isVisible;
             teamOneScoreValue.Visible = isVisible;
+
             teamTwoName.Visible = isVisible;
             teamTwoScoreLabel.Visible = isVisible;
             teamTwoScoreValue.Visible = isVisible;
