@@ -111,6 +111,9 @@ END
 -------------------------------------------------
 ALTER PROCEDURE - if already ran procedure (added @id after already ran)
 -------------------------------
+23:11:15
+
+
 Create PROCEDURE dbo.spTournaments_Insert
 	@TournamentName nvarchar(200),
 	@EntryFee money
@@ -359,7 +362,21 @@ END
 GO
 
 --------------------------------------------------------------------
+23:12:33
 
+CREATE PROCEDURE dbo.spTournaments_Complete
+	@id int
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	update dbo.Tournaments
+	set Active = 0
+	where id = @id;
+
+END
+GO
 
 
 

@@ -102,8 +102,7 @@ namespace TrackerLibrary.DataAccess.TextHelpers
         /// </summary>
         /// <param name="lines"></param>
         /// <returns></returns>
-        public static List<TournamentModel> ConvertToTournamentModels(
-            this List<string> lines)
+        public static List<TournamentModel> ConvertToTournamentModels(this List<string> lines)
         {
             //id,TournamentName, EntryFee, (id|id|id - Entered Teams),(Rounds - id^id^id|id^id^id|id^id^id)
 

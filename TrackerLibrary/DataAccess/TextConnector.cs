@@ -113,5 +113,25 @@ namespace TrackerLibrary.DataAccess
         {
             model.UpdateMatchupToFile();
         }
+
+        public void CompleteTournament(TournamentModel model)
+        {
+            //finds all tournament entries, removes one that matches the model,
+            //saves the file (i.e. deletes that tournament
+
+            List<TournamentModel> tournaments = GlobalConfig.TournamentFile
+                .FullFilePath()
+                .LoadFile()
+                .ConvertToTournamentModels();
+
+           
+
+            tournaments.Remove(model); 
+
+            tournaments.SaveToTournamentFile();
+
+            TournamentLogic.UpdateTournamentResults(model); //updates the model
+        }
+
     }
 }

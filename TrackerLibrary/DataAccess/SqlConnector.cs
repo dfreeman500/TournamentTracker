@@ -354,5 +354,22 @@ namespace TrackerLibrary.DataAccess
             }
 
         }
+
+        public void CompleteTournament(TournamentModel model)
+        {
+            //marks as 0 for active
+            // spTournaments_GetAll only retrieves Active = 1
+            //deletes as far as the UI is concerned
+
+            using (IDbConnection connection = new System.Data.SqlClient.SqlConnection(GlobalConfig.CnnString(db)))
+            {
+                var p = new DynamicParameters();
+                p.Add("@Id", model.Id);
+            
+
+                connection.Execute("dbo.spTournaments_Complete", p, commandType: CommandType.StoredProcedure);
+
+            }
+        }
     }
 }

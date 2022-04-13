@@ -74,6 +74,7 @@ namespace TrackerUI
                 selectedTeamMembers.Add(p);
                 WireUpLists();
 
+                //resets the input fields as blank
                 firstNameValue.Text = "";
                 lastNameValue.Text = "";
                 emailValue.Text = "";

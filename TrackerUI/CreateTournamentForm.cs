@@ -150,7 +150,7 @@ namespace TrackerUI
             }
 
 
-
+            //Creating the tournament model
             TournamentModel tm = new TournamentModel();
             tm.TournamentName = tournamentNameValue.Text;
             tm.EntryFee = fee;
@@ -158,7 +158,6 @@ namespace TrackerUI
             tm.Prizes = selectedPrizes;
             tm.EnteredTeams = selectedTeams;
 
-            //TODO wire up matchups
             TournamentLogic.CreateRounds(tm); //does all the work of creating the rounds
 
 
@@ -173,7 +172,10 @@ namespace TrackerUI
 
 
             GlobalConfig.Connection.CreateTournament(tm);
-            TournamentLogic.UpdateTournamentResults(tm);
+            //TournamentLogic.UpdateTournamentResults(tm);
+
+            //Email users after creating tournament and populating info
+            //tm.AlertUsersToNewRound();
 
             TournamentViewerForm frm = new TournamentViewerForm(tm);
             frm.Show();
