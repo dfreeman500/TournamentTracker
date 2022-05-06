@@ -16,7 +16,7 @@ namespace TrackerUI
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            TrackerLibrary.GlobalConfig.InitializeConnections(TrackerLibrary.DatabaseType.TextFile);
+            TrackerLibrary.GlobalConfig.InitializeConnections(TrackerLibrary.DatabaseType.Sql);
             //Application.Run(new CreateTeamForm()); // sets the first form to open up to
             //Application.Run(new CreateTournamentForm());
             Application.Run(new TournamentDashboardForm()); // sets the first form to open up to

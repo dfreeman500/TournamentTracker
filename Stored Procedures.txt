@@ -248,6 +248,7 @@ SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
+--Gets all the prizes for a given tournament
 
 ALTER PROCEDURE [dbo].[spPrizes_GetByTournament]
 	@TournamentId int
@@ -379,4 +380,29 @@ END
 GO
 
 
+----------------------------------------------------------------
+6:13:26
+
+
+CREATE PROCEDURE dbo.spPrizes_Insert
+	@PlaeNumber int,
+	@PlaceName nvarchar(50),
+	@PrizeAmount money,
+	@PrizePercentage float,
+	@id int = 0 output
+
+AS
+BEGIN
+	SET NOCOUNT ON;
+
+	insert into dbo.Prizes (PlaceNumber, PlaceName, PrizeAmount, PrizePercentage)
+	values (@PlaceNumber, @PlaeName, @PrizeAmount, @PrizePercentage);
+
+	select @id = SCOPE_IDENTITY();
+
+
+END
+GO
+
+----------------------------------------------------------------------------------
 
