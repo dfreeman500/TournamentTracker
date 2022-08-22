@@ -3,10 +3,13 @@ This winform project tracks matches in an elimination style tournament. Players,
 
 #
 <img src="images/dashboard.png" width="350" >
+
 #
 <img src="images/createTournament.png" width="350" >
+
 #
 <img src="images/tournament.png" width="350" >
+
 #
 <img src="images/createTeam.png" width="350" >
 
