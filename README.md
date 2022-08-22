@@ -17,5 +17,5 @@ This project was made using Tim Corey's ~24-hour long C# tutorial found at https
 
 
 
-Future Directions: 
-	* Unit testing
+# Future Directions: 
+* Unit testing
