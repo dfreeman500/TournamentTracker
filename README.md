@@ -1,6 +1,15 @@
 # TournamentTracker
 This winform project tracks matches in an elimination style tournament. Players, teams, prizes, and the tournament are stored in a SQL database.
 
+
+<img src="images/dashboard.png" width="400" >
+<img src="images/createTournament.png" width="400" >
+<img src="images/tournament.png" width="400" >
+<img src="images/createTeam" width="400" >
+
+
+
+
 # To run
 1. Clone the repo
 2. Build the application
