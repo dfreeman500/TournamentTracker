@@ -1,4 +1,4 @@
-﻿using Dapper;
+﻿using Dapper; //Dapper is a micro ORM
 using System;
 using System.Collections.Generic;
 using System.Data;
